@@ -1,0 +1,18 @@
+{
+  "name": "roulette",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "",
+  "scripts": {
+    "lint": "eslint app --ext .js",
+    "lint:fix": "eslint --fix 'app/**/*.js'",
+    "format": "prettier --write 'app/**/*.{html,css,js}'"
+  },
+  "author": "Michal Kurowski",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1"
+  }
+}
