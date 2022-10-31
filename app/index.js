@@ -32,6 +32,12 @@ const updateTimer = async (time) => {
   timer.innerHTML = 0;
 };
 
+const findClosest = (wheelRandom) => {
+  return wheelPartsArray.reduce((prev, curr) => {
+    return Math.abs(curr - wheelRandom) < Math.abs(prev - wheelRandom) ? curr : prev;
+  });
+};
+
 const spinWheel = async (position, speed) => {
   wheel.style.transition = `${speed}ms cubic-bezier(0.2, 0, 0.03, 1)`;
   wheel.style.backgroundPositionX = `${position}px`;
@@ -40,14 +46,13 @@ const spinWheel = async (position, speed) => {
 
 const spinToRandom = async () => {
   const wheelRandom = Math.random() * 1500;
+
   await spinWheel(wheelRandom, delatSpin);
   spinToClosest(wheelRandom);
 };
 
 const spinToClosest = async (wheelRandom) => {
-  const closest = wheelPartsArray.reduce((prev, curr) => {
-    return Math.abs(curr - wheelRandom) < Math.abs(prev - wheelRandom) ? curr : prev;
-  });
+  const closest = wheelRandom <= 1450 ? findClosest(wheelRandom) : '1500';
 
   await spinWheel(closest, delayClosest);
   restartWheel(closest);
@@ -65,5 +70,3 @@ const initialStart = async () => {
 };
 
 initialStart();
-
-// Bug wheel go to front if in middle? Change random between to test every case
