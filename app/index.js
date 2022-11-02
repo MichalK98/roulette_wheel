@@ -1,3 +1,8 @@
+import rouletteParts from './rouletteParts.js';
+
+// Debug
+const debug = false;
+
 // Elements
 const wheel = document.querySelector('#wheel');
 const timer = document.querySelector('#timer');
@@ -13,10 +18,10 @@ for (let i = 0; i < wheelParts; i++) {
 }
 
 // Delays
-const delatSpin = 12000;
-const delayClosest = 2000;
-const delayRestart = 10000;
-const delayBetween = 1000;
+const delatSpin = debug ? 1000 : 12000;
+const delayClosest = debug ? 1000 : 2000;
+const delayRestart = debug ? 1000 : 10000;
+const delayBetween = debug ? 1000 : 1000;
 
 const delay = (time, update = false) => {
   update && updateTimer(time);
@@ -38,6 +43,12 @@ const findClosest = (wheelRandom) => {
   });
 };
 
+const addToHistory = (wheelRandom, closest) => {
+  const index = wheelPartsArray.indexOf(closest);
+  rouletteParts[index].position = wheelRandom;
+  console.log(rouletteParts[index]);
+};
+
 const spinWheel = async (position, speed) => {
   wheel.style.transition = `${speed}ms cubic-bezier(0.2, 0, 0.03, 1)`;
   wheel.style.backgroundPositionX = `${position}px`;
@@ -55,6 +66,7 @@ const spinToClosest = async (wheelRandom) => {
   const closest = wheelRandom <= 1450 ? findClosest(wheelRandom) : '1500';
 
   await spinWheel(closest, delayClosest);
+  addToHistory(wheelRandom, closest);
   restartWheel(closest);
 };
 
